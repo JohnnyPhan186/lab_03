@@ -12,12 +12,25 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var flashcardDatabase: FlashcardDatabase
+    var allFlashcards = mutableListOf<Flashcard>()
+    var currentCardDisplayedIndex = 0 //a variable to keep track of the index of the current card we're showing.
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        flashcardDatabase = FlashcardDatabase(this)
+        allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+
         val flashcardQuestion = findViewById<TextView>(R.id.flashcard_question)
         val flashcardAnswer = findViewById<TextView>(R.id.flashcard_answer)
+
+        if(allFlashcards.isNotEmpty()) {
+            flashcardQuestion.text = allFlashcards[0].question //first question of my database
+            flashcardAnswer.text = allFlashcards[0].answer
+        }
 
         flashcardQuestion.setOnClickListener {
             flashcardAnswer.visibility = View.VISIBLE
@@ -44,6 +57,10 @@ class MainActivity : AppCompatActivity() {
 
                 flashcardQuestion.text = questionString
                 flashcardAnswer.text = answerString
+
+                if (!questionString.isNullOrEmpty() && !answerString.isNullOrEmpty()) //null check for Flashcard
+                    flashcardDatabase.insertCard(Flashcard(questionString, answerString))
+                    allFlashcards = flashcardDatabase.getAllCards().toMutableList()
             }
         }
 
@@ -51,7 +68,24 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AddCardActivity::class.java)
             resultLauncher.launch(intent)
         }
+        val nextButton = findViewById<ImageView>(R.id.add_next_button)
+        nextButton.setOnClickListener {
+            if (allFlashcards.isEmpty()) {
+                return@setOnClickListener
+            }
+            currentCardDisplayedIndex++
 
+            if(currentCardDisplayedIndex >= allFlashcards.size) {
+                currentCardDisplayedIndex = 0
+            }
 
+            allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+
+            val question = allFlashcards[currentCardDisplayedIndex].question
+            val answer = allFlashcards[currentCardDisplayedIndex].answer
+
+            flashcardQuestion.text = question
+            flashcardAnswer.text = answer
+        }
     }
 }
