@@ -6,7 +6,7 @@
 ### App Walk-though
 `TODO://` Add the URL to your animated app walk-though `gif` in the image tag below. Make sure the gif actually renders and animates when viewing this README. (☝️ Remove this paragraph after after adding gif)
 
-<img src="(https://recordit.co/xuUVEGAVho)" width=200><br>
+<img src="(https://recordit.co/3GLx4x9rjU)" width=200><br>
 
 
 
@@ -22,4 +22,8 @@
 
 
 https://user-images.githubusercontent.com/102921609/194788111-41c5772c-d44d-4d68-aee6-f32e28e9ce31.mp4
+
+
+
+https://user-images.githubusercontent.com/102921609/195240271-c11eb3bc-ee64-40c9-b94a-9c7b2716ba12.mp4
 
